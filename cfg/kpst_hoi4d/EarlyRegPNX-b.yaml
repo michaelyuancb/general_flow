@@ -1,0 +1,51 @@
+model:
+  NAME: ScaleKPST
+  traj_mixed_up: 0
+  loss_args:
+    a_weight: 1.0       # weight of accumulative loss for sstep prediction.
+    s_weight: 25.0      # weight of scale loss for vae.  
+    k_weight: 1.0       # weight of KL loss for vae. 
+  clip_align_args:
+    fusion: 'early'
+    hidden_dim: [256, 64]
+    aligned_width: 6
+    act: 'elu'
+    norm: 'bn'
+    dropout: 0
+  encoder_args:
+    NAME: PointNextEncoder
+    in_channels: 6
+    blocks: [1, 2, 3, 2, 2]
+    strides: [1, 4, 4, 4, 4]  
+    sa_layers: 1 
+    sa_use_res: False 
+    width: 32
+    expansion: 4
+    radius: 0.05
+    nsample: 32
+    aggr_args:
+      feature_type: 'dp_fj'
+      reduction: 'max'
+    group_args:
+      NAME: 'ballquery'
+      normalize_dp: True
+    conv_args:
+      order: conv-norm-act
+    act_args:
+      act: 'relu'
+    norm_args:
+      norm: 'bn'
+  decoder_args:
+    NAME: PointNextDecoder
+  cvae_args:
+    NAME: ScaleTrajCVAE
+    scale_method: 'TLN'        # accepted in ['TLN', 'TDN', 'SDN']
+    traj_length: 3             # length of target trajactory, default in 3D space.
+    vae_args:
+      NAME: ScaleRegVAE
+      n_layer_in: 2            # input_dim  ---> latend_dim  (>=1)  [number of activation]
+      n_layer_out: 2           # latent_dim ---> hidden_dim  (>=1)
+      n_layer_pred: 2          # hidden_dim ---> output_dim  (>=0)
+      hidden_dim: 512 
+      latent_dim: 16
+    z_scale: 1.0

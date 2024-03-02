@@ -1,0 +1,85 @@
+datatransforms:  # 
+  train: [RandomRotate_KPST, KPSCoordNorm_KPST, RandomScaleAndTranslate_KPST, ChromaticAutoContrast, RandomDropFeature, NumpyChromaticNormalize]
+  val: [KPSCoordNorm_KPST, NumpyChromaticNormalize] 
+  test: [KPSCoordNorm_KPST, PointsToTensor, NumpyChromaticNormalize] 
+  kwargs:
+    angle: [0.3, 0.3, 0.1]
+    scale: [0.75, 1.25]
+    shift: [0.2, 0.2, 0.2]            # assume that kps-space is smaller than r=[0.4, 0.4, 0.4]
+    color_mean: [0.46259782, 0.46253258, 0.46253258]    # better than not add
+    color_std: [0.693565, 0.6852543, 0.68061745]        
+    feature_drop: 0.2
+
+dataset:
+  common:
+    NAME: KPST_HOI4D_Unit
+    data_root: /home/ycb/HOI4D_KPST                          # /cache0/ycb/kpst/HOI4D_KPST_V2     # ../HOI4D_KPST_V2 
+    processed_root: /home/ycb/HOI4D_KPST_processed                     # ../HOI4D_KPST_V2_processed
+    voxel_size: 0.02       # default_voxel=0.02, only utilized when larger than 0.01
+    unit_r: 0.4
+    aug_cluster: [0.7, 0.3, 0.0]    # random, nearest, none
+    balance_n_cluster: 4
+    balance_temperature: 1.0
+    choose_class: null
+  train:
+    split: train
+    voxel_max: 2048     # max point num
+    n_query: 128        # how many query point for each training epoch
+    aug_hand_mask_probe: [0.5, 0.2, 0.3]   # without, full, random-mask (with hand_radius)
+    aug_hand_mask_radius: 0.12
+    eval_with_hand: null
+  val:
+    split: val
+    voxel_max: 2048     # use unified points_num with fps preprocess.
+    n_query: 512
+    eval_with_hand: False
+  test:
+    split: test 
+    voxel_max: 2048
+    n_query: 512
+    eval_with_hand: False
+
+
+batch_size: 128
+val_batch_size: 256
+
+dataloader:
+  num_workers: 6
+
+
+inference_num: 10
+# ---------------------------------------------------------------------------- #
+# Training cfgs
+
+# optimizer:
+#   NAME: 'adam'
+
+optimizer:
+ NAME: 'adamw'  # better than adam
+ weight_decay: 1.0e-4 # better than 0.5
+
+# lr_scheduler:
+lr: 0.001
+min_lr: null
+
+# ------------------------------- Scheduler ---------------------------------- #
+sched: cosine
+warmup_epochs: 10
+
+
+# ---------------------------------------------------------------------------- #
+epoch: 0
+epochs: 200
+val_freq: 1       # only when epoch % save_epochs_div = 0, we conduct validation & save. 
+val_save: 0       # after how many epochs do we begin to validation & save.
+
+
+grad_norm_clip: 10
+
+# ---------------------------------------------------------------------------- #
+# io and misc
+# ---------------------------------------------------------------------------- #
+
+
+wandb:
+  project: General-Flow

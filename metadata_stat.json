@@ -1,0 +1,469 @@
+{
+    "n_train": 51264,
+    "n_val": 6847,
+    "n_test": 6762,
+    "obj_stat": {
+        "Toy Car": {
+            "train": {
+                "n_index": 168,
+                "n_clips": 6496,
+                "actions": {
+                    "pull": 1483,
+                    "putdown": 1407,
+                    "push": 1617,
+                    "pickup": 744,
+                    "carry": 1245
+                }
+            },
+            "val": {
+                "n_index": 34,
+                "n_clips": 1247,
+                "actions": {
+                    "pull": 291,
+                    "putdown": 272,
+                    "push": 282,
+                    "pickup": 112,
+                    "carry": 290
+                }
+            },
+            "test": {
+                "n_index": 21,
+                "n_clips": 772,
+                "actions": {
+                    "pull": 126,
+                    "putdown": 198,
+                    "push": 194,
+                    "pickup": 49,
+                    "carry": 205
+                }
+            }
+        },
+        "Storage Furniture": {
+            "train": {
+                "n_index": 148,
+                "n_clips": 4005,
+                "actions": {
+                    "close": 1561,
+                    "open": 1657,
+                    "putdown": 524,
+                    "pickup": 171,
+                    "carry": 92
+                }
+            },
+            "val": {
+                "n_index": 22,
+                "n_clips": 782,
+                "actions": {
+                    "close": 305,
+                    "open": 341,
+                    "putdown": 73,
+                    "pickup": 33,
+                    "carry": 30
+                }
+            },
+            "test": {
+                "n_index": 17,
+                "n_clips": 324,
+                "actions": {
+                    "close": 124,
+                    "open": 112,
+                    "putdown": 46,
+                    "pickup": 28,
+                    "carry": 14
+                }
+            }
+        },
+        "Kettle": {
+            "train": {
+                "n_index": 163,
+                "n_clips": 3931,
+                "actions": {
+                    "putdown": 1418,
+                    "dump": 919,
+                    "pickup": 355,
+                    "carry": 1239
+                }
+            },
+            "val": {
+                "n_index": 19,
+                "n_clips": 385,
+                "actions": {
+                    "putdown": 147,
+                    "dump": 95,
+                    "pickup": 43,
+                    "carry": 100
+                }
+            },
+            "test": {
+                "n_index": 17,
+                "n_clips": 443,
+                "actions": {
+                    "putdown": 157,
+                    "dump": 117,
+                    "pickup": 34,
+                    "carry": 135
+                }
+            }
+        },
+        "Trash Can": {
+            "train": {
+                "n_index": 159,
+                "n_clips": 3294,
+                "actions": {
+                    "close": 1132,
+                    "open": 1680,
+                    "putdown": 161,
+                    "pickup": 172,
+                    "carry": 149
+                }
+            },
+            "val": {
+                "n_index": 17,
+                "n_clips": 342,
+                "actions": {
+                    "close": 120,
+                    "open": 174,
+                    "putdown": 15,
+                    "pickup": 16,
+                    "carry": 17
+                }
+            },
+            "test": {
+                "n_index": 20,
+                "n_clips": 352,
+                "actions": {
+                    "close": 82,
+                    "open": 210,
+                    "putdown": 20,
+                    "pickup": 19,
+                    "carry": 21
+                }
+            }
+        },
+        "Bucket": {
+            "train": {
+                "n_index": 132,
+                "n_clips": 4125,
+                "actions": {
+                    "putdown": 1931,
+                    "dump": 495,
+                    "pickup": 475,
+                    "carry": 1224
+                }
+            },
+            "val": {
+                "n_index": 22,
+                "n_clips": 771,
+                "actions": {
+                    "close": 1,
+                    "dump": 125,
+                    "putdown": 369,
+                    "pickup": 97,
+                    "carry": 179
+                }
+            },
+            "test": {
+                "n_index": 16,
+                "n_clips": 459,
+                "actions": {
+                    "putdown": 233,
+                    "dump": 47,
+                    "pickup": 32,
+                    "carry": 147
+                }
+            }
+        },
+        "Stapler": {
+            "train": {
+                "n_index": 138,
+                "n_clips": 1874,
+                "actions": {
+                    "putdown": 656,
+                    "pickup": 542,
+                    "push": 48,
+                    "carry": 628
+                }
+            },
+            "val": {
+                "n_index": 17,
+                "n_clips": 242,
+                "actions": {
+                    "putdown": 89,
+                    "pickup": 62,
+                    "push": 7,
+                    "carry": 84
+                }
+            },
+            "test": {
+                "n_index": 20,
+                "n_clips": 296,
+                "actions": {
+                    "push": 10,
+                    "pickup": 91,
+                    "putdown": 94,
+                    "carry": 101
+                }
+            }
+        },
+        "Bottle": {
+            "train": {
+                "n_index": 152,
+                "n_clips": 4015,
+                "actions": {
+                    "putdown": 2183,
+                    "dump": 161,
+                    "pickup": 677,
+                    "carry": 994
+                }
+            },
+            "val": {
+                "n_index": 17,
+                "n_clips": 473,
+                "actions": {
+                    "putdown": 290,
+                    "dump": 9,
+                    "pickup": 103,
+                    "carry": 71
+                }
+            },
+            "test": {
+                "n_index": 20,
+                "n_clips": 535,
+                "actions": {
+                    "putdown": 328,
+                    "dump": 12,
+                    "pickup": 72,
+                    "carry": 123
+                }
+            }
+        },
+        "Laptop": {
+            "train": {
+                "n_index": 124,
+                "n_clips": 2946,
+                "actions": {
+                    "close": 529,
+                    "open": 776,
+                    "putdown": 951,
+                    "pickup": 371,
+                    "carry": 319
+                }
+            },
+            "val": {
+                "n_index": 18,
+                "n_clips": 332,
+                "actions": {
+                    "close": 68,
+                    "open": 67,
+                    "putdown": 91,
+                    "pickup": 52,
+                    "carry": 54
+                }
+            },
+            "test": {
+                "n_index": 20,
+                "n_clips": 465,
+                "actions": {
+                    "close": 100,
+                    "open": 101,
+                    "putdown": 163,
+                    "pickup": 50,
+                    "carry": 51
+                }
+            }
+        },
+        "Knife": {
+            "train": {
+                "n_index": 158,
+                "n_clips": 2056,
+                "actions": {
+                    "putdown": 762,
+                    "cut": 102,
+                    "pickup": 396,
+                    "carry": 796
+                }
+            },
+            "val": {
+                "n_index": 21,
+                "n_clips": 243,
+                "actions": {
+                    "putdown": 77,
+                    "carry": 84,
+                    "pickup": 51,
+                    "cut": 31
+                }
+            },
+            "test": {
+                "n_index": 20,
+                "n_clips": 272,
+                "actions": {
+                    "putdown": 98,
+                    "cut": 19,
+                    "pickup": 46,
+                    "carry": 109
+                }
+            }
+        },
+        "Pliers": {
+            "train": {
+                "n_index": 149,
+                "n_clips": 2385,
+                "actions": {
+                    "close": 3,
+                    "paper-cut": 41,
+                    "putdown": 1078,
+                    "pickup": 371,
+                    "carry": 892
+                }
+            },
+            "val": {
+                "n_index": 17,
+                "n_clips": 219,
+                "actions": {
+                    "putdown": 99,
+                    "pickup": 47,
+                    "paper-cut": 5,
+                    "carry": 68
+                }
+            },
+            "test": {
+                "n_index": 18,
+                "n_clips": 293,
+                "actions": {
+                    "putdown": 124,
+                    "pickup": 49,
+                    "paper-cut": 12,
+                    "carry": 108
+                }
+            }
+        },
+        "Chair": {
+            "train": {
+                "n_index": 129,
+                "n_clips": 1357,
+                "actions": {
+                    "putdown": 1234,
+                    "pickup": 2,
+                    "carry": 121
+                }
+            },
+            "val": {
+                "n_index": 20,
+                "n_clips": 194,
+                "actions": {
+                    "putdown": 177,
+                    "carry": 17
+                }
+            },
+            "test": {
+                "n_index": 16,
+                "n_clips": 207,
+                "actions": {
+                    "putdown": 189,
+                    "carry": 18
+                }
+            }
+        },
+        "Bowl": {
+            "train": {
+                "n_index": 150,
+                "n_clips": 5288,
+                "actions": {
+                    "putdown": 2316,
+                    "pickup": 872,
+                    "carry": 2100
+                }
+            },
+            "val": {
+                "n_index": 18,
+                "n_clips": 638,
+                "actions": {
+                    "putdown": 263,
+                    "pickup": 97,
+                    "carry": 278
+                }
+            },
+            "test": {
+                "n_index": 19,
+                "n_clips": 657,
+                "actions": {
+                    "putdown": 324,
+                    "pickup": 95,
+                    "carry": 238
+                }
+            }
+        },
+        "Safe": {
+            "train": {
+                "n_index": 122,
+                "n_clips": 3438,
+                "actions": {
+                    "close": 1493,
+                    "open": 1640,
+                    "putdown": 109,
+                    "pickup": 59,
+                    "carry": 137
+                }
+            },
+            "val": {
+                "n_index": 18,
+                "n_clips": 489,
+                "actions": {
+                    "close": 193,
+                    "open": 244,
+                    "putdown": 13,
+                    "pickup": 10,
+                    "carry": 29
+                }
+            },
+            "test": {
+                "n_index": 27,
+                "n_clips": 916,
+                "actions": {
+                    "close": 412,
+                    "open": 420,
+                    "putdown": 34,
+                    "pickup": 17,
+                    "carry": 33
+                }
+            }
+        },
+        "Mug": {
+            "train": {
+                "n_index": 163,
+                "n_clips": 6054,
+                "actions": {
+                    "putdown": 3079,
+                    "dump": 216,
+                    "pickup": 814,
+                    "carry": 1945
+                }
+            },
+            "val": {
+                "n_index": 14,
+                "n_clips": 490,
+                "actions": {
+                    "putdown": 244,
+                    "dump": 10,
+                    "pickup": 44,
+                    "carry": 192
+                }
+            },
+            "test": {
+                "n_index": 19,
+                "n_clips": 771,
+                "actions": {
+                    "putdown": 382,
+                    "dump": 35,
+                    "pickup": 156,
+                    "carry": 198
+                }
+            }
+        }
+    },
+    "soft_data_stat": {
+        "train": 429,
+        "val": 103,
+        "test": 73
+    }
+}
