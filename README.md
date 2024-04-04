@@ -11,9 +11,11 @@ General Flow is a scalable framework designed to transfer low-level human skills
 ## Code Release Plan
 <input type="checkbox" checked> (Jan 29, 2024) Repository Initalization </input> \
 <input type="checkbox" checked> (March 2, 2024) Inference & Evaluation & Pretrained Weight </input> \
+<input type="checkbox" checked> (April 4, 2024) Training Code </input> \
+<input type="checkbox" checked> (April 4, 2024) HOI4D Data Extraction Pipeline</input> \
 <input type="checkbox" > (TODO) "Fold Clothes" Dataset </input> \
-<input type="checkbox" > (TODO) Data Extraction Pipeline</input> \
-<input type="checkbox" > (TODO) Training Code </input> 
+<input type="checkbox" > (TODO) Raw-RGBD Data Extraction Pipeline</input> \
+<input type="checkbox" > (TODO) Final Version Release </input> 
 
 ## Installation
 
@@ -74,15 +76,53 @@ The execution results, along with the visualization file, will be saved in `demo
 
 Additionally, it's possible to directly specify the gripper position and segmentation prompt. For more information, see `aff_exec.py`.
 
+## HOI4D Data Extraction
+
+The HOI4D pipeline is located in the ``data/HOI4D`` directory. First, navigate to this directory by entering:
+
+```
+cd data/HOI4D
+```
+
+Next, execute the following command to extract the general flow labels:
+
+```
+CUDA_VISIBLE_DEVICES=0 nohup python -u label_gen.py --data_root $HOI4D_ROOT --anno_root $HOI4D_ANNO_ROOT --idx_file $HOI4D_RELASE_FILE --output_root $SAVE_ROOT
+```
+
+In this command, `$HOI4D_ROOT` refers to the root directory that stores the RGBD data for the HOI4D dataset, `HOI4D_ANNO_ROOT` is the root directory where the annotations are stored, `HOI4D_RELASE_FILE` is the file path to the `release.txt` of the HOI4D dataset and `$SAVE_ROOT` is the root directory where the extracted general flow dataset will be saved. 
+
+After you have successfully extracted the general flow labels, proceed to generate the final dataset and the training split by running:
+
+```
+CUDA_VISIBLE_DEVICES=0 nohup python -u label_gen_merge.py --output_root $SAVE_ROOT
+```
+
+You may check out [HOI4D Official Repository](https://github.com/leolyliu/HOI4D-Instructions), `label_gen.py` and `label_gen_merge.py` for more details.
+
+## Model Training
+
+To start modeling training on the extracted dataset:
+
+```
+CUDA_VISIBLE_DEVICES=0 nohup python -u train.py --cfg cfg/kpst_hoi4d/EarlyRegPNX-b.yaml val_save=80 --commit AD_base > nul 2>&1 &
+```
+
+The pre-process of datasets (for training acceleration) will be performed first (only be performed once). Then the training process will be started automatically.
+
 ## Evaluation and Inference on General Flow Dataset
 
-To get prediction and evaluation on our extracted dataset: 
+To get prediction and evaluation on the extracted dataset: 
 
 ```
 CUDA_VISIBLE_DEVICES=0 python inference.py -i $IDX -n $SAMPLE -p $CKPT
 ```
 
 where `$IDX` represents the index of the data point in the test set, `$SAMPLE` is the number of trajectories to sample, and `$CKPT` is the filepath of the model weight (.pth file). This command will evaluate the test set of the General Flow Datasets (HOI4D + Clothes) and save the visualization file in `results/HOI4D/$model_name/$IDX_n$SAMPLE.pkl`. For visualization, you can run `python vis_inference.py -r results/HOI4D/$model_name/$IDX_n$SAMPLE.pkl`.
+
+## Acknowledgment
+
+This repository is based on the code from [PointNeXt](https://github.com/guochengqian/PointNeXt), [HOI4D](https://github.com/leolyliu/HOI4D-Instructions), [FastSAM](https://github.com/CASIA-IVA-Lab/FastSAM), [100DoH](https://github.com/ddshan/hand_object_detector), [CoTracker](https://github.com/facebookresearch/co-tracker), [PerAct](https://github.com/peract/peract) and [Deoxys](https://github.com/UT-Austin-RPL/deoxys_control).
 
 ## Citation
 
@@ -95,4 +135,6 @@ If you find this repository useful, please kindly acknowledge our work <span id=
   year={2024}
 }
 ```
+
+
 

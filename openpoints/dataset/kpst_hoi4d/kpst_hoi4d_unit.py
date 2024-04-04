@@ -567,6 +567,13 @@ class KPST_HOI4D_Unit(Dataset):
             data = self.transform(data)  
 
         pack = dict()
+        ############################## Scale Trajectory Package ################################
+        if (self.split == 'train') and (self.scale_method is not None):
+            sstep = self.sstep_list[idx][query_idx]
+            scale = self.scale_list[idx][query_idx]
+            pack['ScaleTraj_sstep'] = sstep
+            pack['ScaleTraj_scale'] = scale
+
         data['pack'] = pack
 
         return data

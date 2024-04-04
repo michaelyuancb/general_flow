@@ -22,16 +22,12 @@ def train_one_epoch(model, train_loader, optimizer, scheduler, epoch, cfg):
                 data['pack'][key] = data['pack'][key].cuda().float()
         num_iter += 1
 
-        if 'video' in data.keys():
-            # only for Image Model
-            loss_pack = model(data['video'], data['dtraj'], data['text_feat'])
-        else:
-            pos = data['pos']                            # (B, N, 3)
-            feat = data['x']                             # (B, N, 3)
-            feat = torch.concat([feat, pos], dim=-1)     # (B, N, 6) ; rgb+xyz for PointNeXt
-            text_feat = data['text_feat']                # (B, Ft)
-            dtraj = data['dtraj']                        # (B, Q, T, 3)
-            loss_pack = model(pos, feat, text_feat, dtraj, pack=data['pack'])
+        pos = data['pos']                            # (B, N, 3)
+        feat = data['x']                             # (B, N, 3)
+        feat = torch.concat([feat, pos], dim=-1)     # (B, N, 6) ; rgb+xyz for PointNeXt
+        text_feat = data['text_feat']                # (B, Ft)
+        dtraj = data['dtraj']                        # (B, Q, T, 3)
+        loss_pack = model(pos, feat, text_feat, dtraj, pack=data['pack'])
 
         loss_grad = loss_pack['loss']
 
@@ -84,16 +80,12 @@ def get_train_loss(model, train_loader):
             data[key] = data[key].cuda().float()
         num_iter += 1
 
-        if 'video' in data.keys():
-            # only for USST Model
-            loss_pack = model(data['video'], data['dtraj'], data['text_feat'])
-        else:
-            pos = data['pos']                            # (B, N, 3)
-            feat = data['x']                             # (B, N, 3)
-            feat = torch.concat([feat, pos], dim=-1)     # (B, N, 6) ; rgb+xyz for PointNeXt
-            text_feat = data['text_feat']                # (B, Ft)
-            dtraj = data['dtraj']                        # (B, Q, T, 3)
-            loss_pack = model(pos, feat, text_feat, dtraj, pack=data['pack'])
+        pos = data['pos']                            # (B, N, 3)
+        feat = data['x']                             # (B, N, 3)
+        feat = torch.concat([feat, pos], dim=-1)     # (B, N, 6) ; rgb+xyz for PointNeXt
+        text_feat = data['text_feat']                # (B, Ft)
+        dtraj = data['dtraj']                        # (B, Q, T, 3)
+        loss_pack = model(pos, feat, text_feat, dtraj, pack=data['pack'])
 
         if loss_record is None:
             loss_record = dict()
@@ -124,28 +116,18 @@ def validate(model, val_loader, cfg, method='min'):
             if key == 'pack': continue
             data[key] = data[key].cuda().float()
 
-        if 'video' in data.keys():
-            # only for USST Model
-            image = data['video']                        # (B, C, H, W)
-            query = data['dtraj'][:, :, 0, :]            # (B, Q, 3)
-            target = data['dtraj'][:, :, 1:, :]          # (B, Q, T-1=4, 3)
-            if hasattr(model, 'inference'):
-                traj_prediction = model.inference(image, query, data['text_feat'])
-            else:
-                traj_prediction = model.module.inference(image, query, data['text_feat'])
-        else:
-            pos = data['pos']                            # (B, N, 3)
-            feat = data['x']                             # (B, N, 3)
-            feat = torch.concat([feat, pos], dim=-1)     # (B, N, 6) ; xyz+rgb for PointNeXt
-            text_feat = data['text_feat']                # (B, Ft)
-            dtraj = data['dtraj']                        # (B, Q, T, 3)
-            query = dtraj[:, :, 0, :]                    # (B, Q, 3)
-            target = dtraj[:, :, 1:, :]                  # (B, Q, T-1=4, 3)
+        pos = data['pos']                            # (B, N, 3)
+        feat = data['x']                             # (B, N, 3)
+        feat = torch.concat([feat, pos], dim=-1)     # (B, N, 6) ; xyz+rgb for PointNeXt
+        text_feat = data['text_feat']                # (B, Ft)
+        dtraj = data['dtraj']                        # (B, Q, T, 3)
+        query = dtraj[:, :, 0, :]                    # (B, Q, 3)
+        target = dtraj[:, :, 1:, :]                  # (B, Q, T-1=4, 3)
 
-            if hasattr(model, 'inference'):
-                traj_prediction = model.inference(pos, feat, text_feat, query, num_sample=cfg.inference_num)         # (B, Q, M, T-1=4, 3)
-            else:
-                traj_prediction = model.module.inference(pos, feat, text_feat, query, num_sample=cfg.inference_num)  
+        if hasattr(model, 'inference'):
+            traj_prediction = model.inference(pos, feat, text_feat, query, num_sample=cfg.inference_num)         # (B, Q, M, T-1=4, 3)
+        else:
+            traj_prediction = model.module.inference(pos, feat, text_feat, query, num_sample=cfg.inference_num)  
         # the inference prediction is pos[t] - pos[0]
 
         ade_stochastic, fde_stochastic = stochastic_eval(traj_prediction, target, method=method)
