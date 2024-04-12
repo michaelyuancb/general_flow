@@ -8,15 +8,6 @@ General Flow is a scalable framework designed to transfer low-level human skills
 
 ![teaser_pic](teaser.png "teaser_pic")
 
-## Code Release Plan
-<input type="checkbox" checked> (Jan 29, 2024) Repository Initalization </input> \
-<input type="checkbox" checked> (March 2, 2024) Inference & Evaluation & Pretrained Weight </input> \
-<input type="checkbox" checked> (April 4, 2024) Training Code </input> \
-<input type="checkbox" checked> (April 4, 2024) HOI4D Data Extraction Pipeline</input> \
-<input type="checkbox" > (TODO) "Fold Clothes" Dataset </input> \
-<input type="checkbox" > (TODO) Raw-RGBD Data Extraction Pipeline</input> \
-<input type="checkbox" > (TODO) Final Version Release </input> 
-
 ## Installation
 
 ```
@@ -76,6 +67,10 @@ The execution results, along with the visualization file, will be saved in `demo
 
 Additionally, it's possible to directly specify the gripper position and segmentation prompt. For more information, see `aff_exec.py`.
 
+## "Fold Clothes" Video Collection
+
+The collected RGBD videos of "fold Clothes" task execution could be downloaded from [link](https://drive.google.com/file/d/1JZjM5oy8HEQ19rO6HvXWKsXByj5jFFny/view?usp=sharing).
+
 ## HOI4D Data Extraction
 
 The HOI4D pipeline is located in the ``data/HOI4D`` directory. First, navigate to this directory by entering:
@@ -87,7 +82,7 @@ cd data/HOI4D
 Next, execute the following command to extract the general flow labels:
 
 ```
-CUDA_VISIBLE_DEVICES=0 nohup python -u label_gen.py --data_root $HOI4D_ROOT --anno_root $HOI4D_ANNO_ROOT --idx_file $HOI4D_RELASE_FILE --output_root $SAVE_ROOT
+CUDA_VISIBLE_DEVICES=0 python label_gen.py --data_root $HOI4D_ROOT --anno_root $HOI4D_ANNO_ROOT --idx_file $HOI4D_RELASE_FILE --output_root $SAVE_ROOT
 ```
 
 In this command, `$HOI4D_ROOT` refers to the root directory that stores the RGBD data for the HOI4D dataset, `HOI4D_ANNO_ROOT` is the root directory where the annotations are stored, `HOI4D_RELASE_FILE` is the file path to the `release.txt` of the HOI4D dataset and `$SAVE_ROOT` is the root directory where the extracted general flow dataset will be saved. 
@@ -95,17 +90,42 @@ In this command, `$HOI4D_ROOT` refers to the root directory that stores the RGBD
 After you have successfully extracted the general flow labels, proceed to generate the final dataset and the training split by running:
 
 ```
-CUDA_VISIBLE_DEVICES=0 nohup python -u label_gen_merge.py --output_root $SAVE_ROOT
+CUDA_VISIBLE_DEVICES=0 python label_gen_merge.py --output_root $SAVE_ROOT
 ```
 
 You may check out [HOI4D Official Repository](https://github.com/leolyliu/HOI4D-Instructions), `label_gen.py` and `label_gen_merge.py` for more details.
+
+## Raw RGBD Video Data Extraction
+
+The Raw RGBD Video pipeline is located in the ``data/RVideo`` directory. First, navigate to this directory by entering:
+
+```
+cd data/RVideo
+```
+
+Then install [CLIP](https://github.com/openai/CLIP), [FastSAM](https://github.com/CASIA-IVA-Lab/FastSAM), [100DoH](https://github.com/ddshan/hand_object_detector) and [CoTracker](https://github.com/facebookresearch/co-tracker) in ``tool_repos/`` directory.
+
+Next, execute the following command to extract the general flow labels:
+
+```
+CUDA_VISIBLE_DEVICES=0 python label_gen_demo.py --raw_data_root $Video_ROOT --save_root $SAVE_ROOT
+```
+In this command, `$Video_ROOT` refers to the root directory that stores the RGBD video data and `$SAVE_ROOT` is the root directory where the extracted general flow dataset will be saved. 
+
+After you have successfully extracted the general flow labels, you may merge the result into the HOI4D extraction dataset by running:
+
+```
+CUDA_VISIBLE_DEVICES=0 python merge_egosoft2hoi4d.py --hoi4d_dir $HOI4D_FLOW_DIR --egosoft_dir $RVideo_FLOW_DIR
+```
+
+where `$HOI4D_FLOW_DIR` and `$RVideo_FLOW_DIR` refers to the root directory that stores the extraction result of HOI4D dataset and Raw RGBD Videos. You may check out `label_gen_demo.py` and `merge_egosoft2hoi4d.py` for more details.
 
 ## Model Training
 
 To start modeling training on the extracted dataset:
 
 ```
-CUDA_VISIBLE_DEVICES=0 nohup python -u train.py --cfg cfg/kpst_hoi4d/EarlyRegPNX-b.yaml val_save=80 --commit AD_base > nul 2>&1 &
+CUDA_VISIBLE_DEVICES=0 python train.py --cfg cfg/kpst_hoi4d/EarlyRegPNX-b.yaml val_save=80 --commit AD_base
 ```
 
 The pre-process of datasets (for training acceleration) will be performed first (only be performed once). Then the training process will be started automatically.
