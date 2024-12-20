@@ -274,19 +274,4 @@ if __name__ == "__main__":
 
 
 # CUDA_VISIBLE_DEVICES=0 nohup python -u train.py --lr 0.001 --commit lr1e3 > nul 2>&1 &
-# CUDA_VISIBLE_DEVICES=1 nohup python -u train.py --lr 0.005 --commit lr5e3 > nul 2>&1 &
-
-# CUDA_VISIBLE_DEVICES=$GPUs python examples/$task_folder/main.py --cfg $cfg $kwargs
-# CUDA_VISIBLE_DEVICES=0 python train.py --commit debug dataloader.num_workers=0
-
-
-# 点云处理
-# (1) Rotation Augmentation如何处理     <仅z轴, 确认一下HOI4D世界坐标系z轴是否垂直地面> [其它indoor-PCD task如何做]
-# (2) 点云的缩放如何处理？是否要归一化？  <PointNet Transform Block> <归一化[-1,1]>  
-# (3) 点云如何进行Batch训练？            <FPS [alws]>
-# (4) 是否要Diff-Traj                   <✔>
-# (5) PointNeXt使用旋转不变性与平移不变性 (尤其是在Trajectory Prediction中)  <麻烦, z轴垂直问题>
-# (6) Visual Grounding (针对点云的Grounding)   [XXXX]
-# (7) Back-Projection和Correspondance代码？    <XXXX> 
-# (8) Model Architecture
-# (9) Real Robot Experiment                   
+# CUDA_VISIBLE_DEVICES=1 nohup python -u train.py --lr 0.005 --commit lr5e3 > nul 2>&1 &      
